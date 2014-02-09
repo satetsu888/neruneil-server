@@ -11,7 +11,8 @@ BEGIN {
 subtest call => sub {
     my $image_hash = '00866c4e3befd494ac67d85fe0120e60';
 
-    my $result = NeruNail::ImageSearcher::DRE->call(+{ image_hash => $image_hash });
+    my $searcher = NeruNail::ImageSearcher::DRE->new();
+    my $result = $searcher->call(+{ image_hash => $image_hash });
 
     ok($result, 'got some result');
     isa_ok($result, 'ARRAY');

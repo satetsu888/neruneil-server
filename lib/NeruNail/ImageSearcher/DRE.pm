@@ -8,8 +8,15 @@ use File::Basename;
 my $BASE_COMMAND = 'java -jar dre.app.linux.x64.jar --package=lls --package-option="threshold=%d" --storage-path=%s --num-threads=%d %s';
 my $BASE_IMAGE_URL = 'http://satetsu888.com/nail/images/';
 
-sub call {
+sub new {
     my $class = shift;
+    my %args = @_;
+
+    return bless +{ %args }, $class;
+};
+
+sub call {
+    my $self = shift;
     my $params = shift;
 
     my $raw_result = __call($params);
