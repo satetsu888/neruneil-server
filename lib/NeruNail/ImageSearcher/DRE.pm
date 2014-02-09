@@ -3,18 +3,19 @@ use strict;
 use warnings;
 
 use XML::Simple;
+use File::Basename;
 
 my $BASE_COMMAND = 'java -jar dre.app.linux.x64.jar --package=lls --package-option="threshold=%d" --storage-path=%s --num-threads=%d %s';
+my $BASE_IMAGE_URL = 'http://satetsu888.com/nail/images/';
 
 sub call {
     my $class = shift;
     my $params = shift;
 
-    my $raw_result = __call();
+    my $raw_result = __call($params);
     my $result = __parse($raw_result);
 
     return $result;
-
 }
 
 sub __call {
@@ -24,7 +25,7 @@ sub __call {
         400,
         'images',
         1,
-        'images/00866c4e3befd494ac67d85fe0120e60',
+        'images/' . $params->{image_hash},
     );
 
     return `$command`;
@@ -46,7 +47,12 @@ sub __parse {
     for(keys $simitem){
         my $distance = $simitem->{$_}->{distance};
         my $path = $file->{$_}->{path};
-        push @response_array, +{ distance => $distance, path => $path };
+        my $url = $BASE_IMAGE_URL . basename($path);
+        push @response_array,
+            +{
+                distance => $distance,
+                url      => $url,
+            };
     }
 
     return [ sort { $a->{distance} <=> $b->{distance} } @response_array ];
