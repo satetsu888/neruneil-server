@@ -5,7 +5,7 @@ use lib 'lib';
 
 use Mojolicious::Lite;
 use MojoX::JSON::RPC::Service;
-use NaruNail;
+use NeruNail;
 
 my $svc = MojoX::JSON::RPC::Service->new;
 
@@ -13,7 +13,7 @@ $svc->register(
     'get_pic',
     sub {
         my $params = shift;
-        return NaruNail->get_pic($params);
+        return NeruNail->get_pic($params);
     },
 );
 
